@@ -33,7 +33,7 @@
     "mongoose": "^5.10.7",
     "serve-favicon": "^2.5.0"
   },
-  "props": {
-    "no-param-reassign": [2, {"props": false}]
+  "rules": {
+    "no-param-reassign": [2, { "props": false }]
   }
 }

@@ -250,13 +250,14 @@ const searchDogName = (req, res) => {
     }
 
     doc.age += parseInt(req.query.age, 10);
-    doc.save();
-
-    return res.json({
-      name: doc.name,
-      breed: doc.breed,
-      age: doc.age,
-    });
+    const dog = doc;
+    return dog.save()
+      .then((result) => {
+        res.json(result);
+      })
+      .catch((error) => {
+        res.status(500).json(error);
+      });
   });
 };
 

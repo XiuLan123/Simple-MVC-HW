@@ -249,7 +249,7 @@ const searchDogName = (req, res) => {
       });
     }
 
-    doc.age += parseInt(req.query.age);
+    doc.age += parseInt(req.query.age, radix);
     doc.save();
 
     return res.json({

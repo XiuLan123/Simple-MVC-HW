@@ -1,0 +1,59 @@
+// import libraries
+const path = require('path');
+const express = require('express');
+const compression = require('compression');
+const favicon = require('serve-favicon');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+const expressHandlebars = require('express-handlebars');
+
+const router = require('./router.js');
+
+const port = process.env.PORT || process.env.NODE_PORT || 3000;
+
+//const dbURL = process.env.MONGODB_URI || 'mongodb://localhost/simpleMVCExample';
+const dbURL = 'mongodb+srv://JohnZhang:Qwe5179346@cluster0.dxkt3.mongodb.net/SimpleModels';
+
+const mongooseOptions = {
+  useNewUrlParser: true, 
+  useUnifiedTopology: true,
+  useCreateIndex: true,
+}
+
+mongoose.connect(dbURL, mongooseOptions, (err) => {
+  if (err) {
+    console.log('Could not connect to database');
+    throw err;
+  }
+});
+
+const app = express();
+
+app.use('/assets', express.static(path.resolve(`${__dirname}/../client/`)));
+
+app.use(compression());
+
+app.use(bodyParser.urlencoded({ extended: false }));
+
+app.use(bodyParser.json());
+
+app.engine('handlebars', expressHandlebars({
+  defaultLayout: '',
+}));
+app.set('view engine', 'handlebars');
+app.set('views', `${__dirname}/../views`);
+
+app.use(favicon(`${__dirname}/../client/img/favicon.png`));
+
+app.use(cookieParser());
+
+router(app);
+
+app.listen(port, (err) => {
+  if (err) {
+    throw err;
+  }
+  console.log(`Listening on port ${port}`);
+});
+

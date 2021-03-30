@@ -241,7 +241,7 @@ const searchDogName = (req, res) => {
       });
     }
 
-    if(!req.query.age){
+    if (!req.query.age) {
       return res.json({
         name: doc.name,
         breed: doc.breed,
@@ -249,11 +249,12 @@ const searchDogName = (req, res) => {
       });
     }
 
+    let newAge = doc.age += parseInt(req.query.age);
     const dogUpdateData = {
       name: doc.name,
       breed: doc.breed,
-      age: doc.age += parseInt(req.query.age),
-    }
+      age: newAge,
+    };
 
     const updatedDog = new Dog(dogUpdateData);
     updatedDog.save();
